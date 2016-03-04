@@ -7,6 +7,6 @@ group at NSLS-II.
 Pushing to this repo will automatically trigger docker hub to create a new
 docker image (or is it a container? I never can remember the terminology...).
 
-This docker image is currently hosted at ericdill/debian79.
+This docker image is currently hosted at ericdill/nsls2-builder.
 
-`docker pull ericdill/debian79`
+`docker pull ericdill/nsls2-builder`
