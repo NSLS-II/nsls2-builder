@@ -30,8 +30,7 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -
     conda config --set always_yes True && \
     conda update --all && conda clean -t -p && \
     conda update conda && \
-    conda install conda-build anaconda-client && \
-    conda remove conda-build
+    conda install conda-build anaconda-client
 
 ENV PATH /opt/conda/bin:$PATH
 
