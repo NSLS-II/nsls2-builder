@@ -45,4 +45,4 @@ ENV LC_ALL C.UTF-8
 RUN apt-get install libffi-dev libssl-dev -y
 
 # install packages for hkl
-RUN apt-get install gtk-doc
+RUN apt-get install gtk-doc -y
