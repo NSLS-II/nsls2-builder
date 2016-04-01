@@ -30,7 +30,8 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -
     conda config --set show_channel_urls True && \
     conda config --set always_yes True && \
     conda update conda && \
-    conda install conda-build anaconda-client
+    conda install conda-build anaconda-client && \
+    conda clean -t -p
 
 ENV PATH /opt/conda/bin:$PATH
 
