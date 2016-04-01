@@ -23,6 +23,7 @@ RUN apt-get install -y autoconf \
       libx11-6 libx11-dev \
       # gobject-introspection
       flex
+
 RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose && \
     bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda && rm Miniconda*.sh && \
     export PATH=/opt/conda/bin:$PATH && \
@@ -34,4 +35,8 @@ RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -
 
 ENV PATH /opt/conda/bin:$PATH
 
-ENV LANG en_US.UTF-8
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update -qq && apt-get install -y locales -qq && locale-gen en_US.UTF-8 en_us && dpkg-reconfigure locales && dpkg-reconfigure locales && locale-gen C.UTF-8 && /usr/sbin/update-locale LANG=C.UTF-8
+ENV LANG C.UTF-8
+ENV LANGUAGE C.UTF-8
+ENV LC_ALL C.UTF-8
