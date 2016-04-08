@@ -22,7 +22,7 @@ RUN apt-get install -y autoconf \
       tk-dev \
       libx11-6 libx11-dev \
       # gobject-introspection
-      flex
+      flex \
       # install extra packages for gobject-introspection package
       libffi-dev \
       libssl-dev
