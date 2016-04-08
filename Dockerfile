@@ -26,7 +26,9 @@ RUN apt-get install -y autoconf \
       # install extra packages for gobject-introspection package
       libffi-dev \
       libssl-dev \
-      bison
+      bison \
+      # install packages for hkl
+      gtk-doc-tools
 
 RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose && \
     bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda && rm Miniconda*.sh && \
@@ -44,7 +46,3 @@ RUN apt-get update -qq && apt-get install -y locales -qq && locale-gen en_US.UTF
 ENV LANG C.UTF-8
 ENV LANGUAGE C.UTF-8
 ENV LC_ALL C.UTF-8
-
-
-# install packages for hkl
-RUN apt-get install gtk-doc-tools -y
