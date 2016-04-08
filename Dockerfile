@@ -25,7 +25,8 @@ RUN apt-get install -y autoconf \
       flex \
       # install extra packages for gobject-introspection package
       libffi-dev \
-      libssl-dev
+      libssl-dev \
+      bison
 
 RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose && \
     bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda && rm Miniconda*.sh && \
