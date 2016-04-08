@@ -23,6 +23,9 @@ RUN apt-get install -y autoconf \
       libx11-6 libx11-dev \
       # gobject-introspection
       flex
+      # install extra packages for gobject-introspection package
+      libffi-dev \
+      libssl-dev
 
 RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose && \
     bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda && rm Miniconda*.sh && \
@@ -41,8 +44,6 @@ ENV LANG C.UTF-8
 ENV LANGUAGE C.UTF-8
 ENV LC_ALL C.UTF-8
 
-# install extra packages for gobject-introspection package
-RUN apt-get install libffi-dev libssl-dev -y
 
 # install packages for hkl
 RUN apt-get install gtk-doc-tools -y
