@@ -31,17 +31,6 @@ RUN apt-get update && \
       # install packages for hkl
       gtk-doc-tools
 
-RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose && \
-    bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda && rm Miniconda*.sh && \
-    export PATH=/opt/conda/bin:$PATH && \
-    conda config --set show_channel_urls True && \
-    conda config --set always_yes True && \
-    conda update conda && \
-    conda install conda-build anaconda-client && \
-    conda clean -t -p
-
-ENV PATH /opt/conda/bin:$PATH
-
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -qq && \
     apt-get install -y locales -qq && \
@@ -53,3 +42,16 @@ RUN apt-get update -qq && \
 ENV LANG C.UTF-8
 ENV LANGUAGE C.UTF-8
 ENV LC_ALL C.UTF-8
+
+USER builder
+
+RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose && \
+    bash Miniconda3-latest-Linux-x86_64.sh -b -p ~/conda && rm Miniconda*.sh && \
+    export PATH=~/conda/bin:$PATH && \
+    conda config --set show_channel_urls True && \
+    conda config --set always_yes True && \
+    conda update conda && \
+    conda install conda-build anaconda-client && \
+    conda clean -t -p
+
+ENV PATH ~/conda/bin:$PATH
