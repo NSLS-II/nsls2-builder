@@ -1,5 +1,6 @@
 channels:
-  - https://pergamon.cs.nsls2.local:8443/conda/nsls2-tag
   - https://pergamon.cs.nsls2.local:8443/conda/anaconda
 always_yes: true
 show_channel_urls: true
+track_features:
+- nomkl

@@ -29,8 +29,16 @@ RUN apt-get update && \
       libssl-dev \
       bison \
       # install packages for hkl
-      gtk-doc-tools
+      gtk-doc-tools \
+      # need an editor...
+      vim \
+      # and one for tom...
+      emacs
 
+# Set the Locale so conda doesn't freak out
+# It is roughly this problem: http://stackoverflow.com/questions/14547631/python-locale-error-unsupported-locale-setting
+# I don't remember exactly where I found this solution, but it took about 2 days of
+# intense googling and trial-and-error
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -qq && \
     apt-get install -y locales -qq && \
@@ -43,15 +51,49 @@ ENV LANG C.UTF-8
 ENV LANGUAGE C.UTF-8
 ENV LC_ALL C.UTF-8
 
+# Create the `builder` user
+RUN useradd --create-home --shell /bin/bash builder
+
+# Set the `builder` user as the active user so all ENV/RUN/ADD commands get run
+# as the `builder` user
 USER builder
 
-RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose && \
-    bash Miniconda3-latest-Linux-x86_64.sh -b -p ~/conda && rm Miniconda*.sh && \
-    export PATH=~/conda/bin:$PATH && \
-    conda config --set show_channel_urls True && \
-    conda config --set always_yes True && \
-    conda update conda && \
-    conda install conda-build anaconda-client && \
+# Add the conda binary folder to the builder's path
+ENV PATH /home/builder/conda/bin:$PATH
+
+# Actually install miniconda
+RUN cd && \
+    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh --no-verbose && \
+    bash Miniconda3-latest-Linux-x86_64.sh -b -p ~/conda && \
+    rm Miniconda*.sh
+
+# Install the minimum required packages for building conda packages
+# - anaconda-client
+# - conda-build
+# - conda-build-all
+# - conda-build-utils
+RUN conda update conda && \
+    conda install conda-build anaconda-client conda-build-all -c conda-forge && \
+    conda remove conda-build-all --force && \
+    git clone https://github.com/Scitools/conda-build-all /home/builder/conda-build-all && \
+    pip install -e /home/builder/conda-build-all && \
+    git clone https://github.com/ericdill/conda-build-utils /home/builder/conda-build-utils && \
+    pip install -e /home/builder/conda-build-utils && \
     conda clean -t -p
 
-ENV PATH ~/conda/bin:$PATH
+USER root
+
+# Add the condarc that allows us to skip adding "--yes" to all the conda calls
+# Also has the `nomkl` directive which significantly shortens the download times
+# and always shows where the packages are downloaded from
+ADD .condarc /home/builder/.condarc
+
+# Add the build script so that it can be run when the docker container starts
+ADD build.sh /home/builder/build.sh
+
+# Need to make sure builder owns these files
+RUN chown -R builder:builder /home/builder
+
+USER builder
+
+CMD ["/bin/bash", "/home/builder/build.sh"]
