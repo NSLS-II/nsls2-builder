@@ -5,6 +5,7 @@ MAINTAINER Eric Dill <edill@bnl.gov>
 USER root
 # add the nsls2 condarc
 ADD .condarc /home/builder/.condarc
+ADD edill.anaconda.nsls2.token /home/builder/binstar_token
 RUN chown -R builder:builder /home/builder/
 USER builder
 
