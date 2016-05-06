@@ -7,12 +7,16 @@ MAINTAINER Eric Dill <edill@bnl.gov>
 ADD ~/certificates/ca_cs_nsls2_local.crt /certs/ca_cs_nsls2_local.crt
 ADD .condarc ~/.condarc
 
+# set up the binstar api url
+RUN mkdir -p ~/.config/binstar && \
+    echo 'url: https://pergamon.cs.nsls2.local:8443/api' > ~/.config/binstar/config.yaml
+
+# Need to make sure builder owns these files
+RUN chown -R builder:builder /home/builder
+
+USER builder
 # add environmental variables to the docker container
 ENV REQUESTS_CA_BUNDLE /certs/ca_cs_nsls2_local.crt
 ENV no_proxy cs.nsls2.local
 ENV HTTP_PROXY http://proxy:8888
 ENV HTTPS_PROXY http://proxy:8888
-
-# set up the binstar api url
-RUN mkdir -p ~/.config/binstar && \
-    echo 'url: https://pergamon.cs.nsls2.local:8443/api' > ~/.config/binstar/config.yaml

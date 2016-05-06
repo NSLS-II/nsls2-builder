@@ -8,6 +8,10 @@ docker pull $BASE_IMAGE
 
 GIT_REPO="https://github.com/nsls-ii/nsls2-builder"
 CLONE_PATH='/tmp/$LOGNAME/nsls2-builder'
+echo "
+    Removing any previous repos
+"
+rm -rf $CLONE_PATH
 
 echo "
     Cloning docker repo to build nsls2 conda builder image locally
@@ -18,8 +22,19 @@ git clone $GIT_REPO $CLONE_PATH
 NSLS2_IMAGE="ericdill/nsls2-conda-builder"
 
 echo "
-    Building nsls2-conda-builder docker image
+    Building nsls2-conda-builder docker image named $NSLS2_IMAGE
 "
-docker build -t $NSLS2_IMAGE $CLONE_PATH
+docker build -t $NSLS2_IMAGE $CLONE_PATH/nsls2-conda-builder
 
-docker run -e $BINSTAR_TOKEN -e DEV_CHANNEL nsls2-dev-testing -e TAG_CHANNEL -e nsls2-tag-testing $NSLS2_IMAGE:latest
+
+DEV_CHANNEL=nsls2-dev-testing
+TAG_CHANNEL=nsls2-tag-testing
+echo "
+    Running docker image named $NSLS2_IMAGE with the following environmental
+    variables:
+
+    BINSTAR_TOKEN=$BINSTAR_TOKEN
+    DEV_CHANNEL=$DEV_CHANNEL
+    TAG_CHANNEL=$TAG_CHANNEL
+"
+docker run -e BINSTAR_TOKEN=$BINSTAR_TOKEN -e DEV_CHANNEL=nsls2-dev-testing -e TAG_CHANNEL=nsls2-tag-testing $NSLS2_IMAGE:latest
