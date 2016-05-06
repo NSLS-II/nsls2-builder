@@ -43,4 +43,4 @@ echo "
     DEV_CHANNEL=$DEV_CHANNEL
     TAG_CHANNEL=$TAG_CHANNEL
 "
-#docker run -e BINSTAR_TOKEN=$BINSTAR_TOKEN -e DEV_CHANNEL=nsls2-dev-testing -e TAG_CHANNEL=nsls2-tag-testing $NSLS2_IMAGE:latest
+docker run -e BINSTAR_TOKEN=$BINSTAR_TOKEN -e DEV_CHANNEL=nsls2-dev-testing -e TAG_CHANNEL=nsls2-tag-testing $NSLS2_IMAGE:latest
