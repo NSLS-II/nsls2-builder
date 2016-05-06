@@ -6,6 +6,7 @@ MAINTAINER Eric Dill <edill@bnl.gov>
 RUN rm ~/.condarc
 # add the nsls2 condarc
 ADD .condarc ~/.condarc
+RUN cat ~/.condarc
 
 # add the certificate. Note that this has to be built on a machine where
 # the certificate exists...
