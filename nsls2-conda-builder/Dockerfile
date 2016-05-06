@@ -5,7 +5,7 @@ MAINTAINER Eric Dill <edill@bnl.gov>
 # remove the condarc from the debian conda builder image
 RUN rm ~/.condarc
 # add the nsls2 condarc
-ADD .condarc ~/.condarc
+ADD .condarc /home/builder/.condarc
 RUN cat ~/.condarc
 
 # add the certificate. Note that this has to be built on a machine where

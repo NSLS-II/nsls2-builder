@@ -4,25 +4,13 @@ echo "
     Pulling base docker image: $BASE_IMAGE
 "
 docker pull $BASE_IMAGE
+GIT_REPO='.'
 
-
-GIT_REPO="https://github.com/nsls-ii/nsls2-builder"
-CLONE_PATH='/tmp/$LOGNAME/nsls2-builder'
-echo "
-    Removing any previous repos
-"
-rm -rf $CLONE_PATH
-
-echo "
-    Cloning docker repo to build nsls2 conda builder image locally
-    so that I can pick up the nsls2 certificate
-"
-git clone $GIT_REPO $CLONE_PATH
 echo "
     Copying nsls2 certificate to be a sibling of the nsls2 conda builder
     dockerfile
 "
-DOCKERFILE_FOLDER=$CLONE_PATH/nsls2-conda-builder
+DOCKERFILE_FOLDER=$GIT_REPO/nsls2-conda-builder
 
 cp ~/certificates/ca_cs_nsls2_local.crt $DOCKERFILE_FOLDER
 NSLS2_IMAGE="ericdill/nsls2-conda-builder"
