@@ -1,5 +1,5 @@
 channels:
-  - https://pergamon.cs.nsls2.local:8443/conda/anaconda
+  - anaconda
 always_yes: true
 show_channel_urls: true
 track_features:
