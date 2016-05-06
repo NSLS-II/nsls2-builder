@@ -21,4 +21,4 @@ ENV no_proxy cs.nsls2.local
 ENV HTTP_PROXY http://proxy:8888
 ENV HTTPS_PROXY http://proxy:8888
 
-CMD ["sh", "-c", "~/conda/bin/conda", "info"]
+CMD ["sh", "-c", "conda info"]
