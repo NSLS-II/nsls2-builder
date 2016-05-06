@@ -18,19 +18,25 @@ echo "
     so that I can pick up the nsls2 certificate
 "
 git clone $GIT_REPO $CLONE_PATH
+echo "
+    Copying nsls2 certificate to be a sibling of the nsls2 conda builder
+    dockerfile
+"
+DOCKERFILE_FOLDER=$CLONE_PATH/nsls2-conda-builder
 
+cp ~/certificates/ca_cs_nsls2_local.crt $DOCKERFILE_FOLDER
 NSLS2_IMAGE="ericdill/nsls2-conda-builder"
 
 echo "
     Building nsls2-conda-builder docker image named $NSLS2_IMAGE
 "
-docker build -t $NSLS2_IMAGE $CLONE_PATH/nsls2-conda-builder
+docker build -t $NSLS2_IMAGE $DOCKERFILE_FOLDER 
 
 
 DEV_CHANNEL=nsls2-dev-testing
 TAG_CHANNEL=nsls2-tag-testing
 echo "
-    Running docker image named $NSLS2_IMAGE with the following environmental
+    Running docker image named $NSLS2_IMAGE with the following environmental 
     variables:
 
     BINSTAR_TOKEN=$BINSTAR_TOKEN

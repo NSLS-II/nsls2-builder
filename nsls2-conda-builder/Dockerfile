@@ -4,7 +4,7 @@ MAINTAINER Eric Dill <edill@bnl.gov>
 
 # add the certificate. Note that this has to be built on a machine where
 # the certificate exists...
-ADD ~/certificates/ca_cs_nsls2_local.crt /certs/ca_cs_nsls2_local.crt
+ADD ca_cs_nsls2_local.crt /certs/ca_cs_nsls2_local.crt
 ADD .condarc ~/.condarc
 
 # set up the binstar api url
@@ -20,3 +20,4 @@ ENV REQUESTS_CA_BUNDLE /certs/ca_cs_nsls2_local.crt
 ENV no_proxy cs.nsls2.local
 ENV HTTP_PROXY http://proxy:8888
 ENV HTTPS_PROXY http://proxy:8888
+
