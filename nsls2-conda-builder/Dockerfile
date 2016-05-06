@@ -1,7 +1,7 @@
 FROM ericdill/debian-conda-builder:latest
 
 MAINTAINER Eric Dill <edill@bnl.gov>
-
+RUN whoami
 # remove the condarc from the debian conda builder image
 #RUN rm ~/.condarc
 # add the nsls2 condarc
