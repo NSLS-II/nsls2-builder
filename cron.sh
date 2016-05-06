@@ -30,7 +30,7 @@ NSLS2_IMAGE="ericdill/nsls2-conda-builder"
 echo "
     Building nsls2-conda-builder docker image named $NSLS2_IMAGE
 "
-docker build --no-cache -t $NSLS2_IMAGE $DOCKERFILE_FOLDER 
+docker build -t $NSLS2_IMAGE $DOCKERFILE_FOLDER 
 
 
 DEV_CHANNEL=nsls2-dev-testing
