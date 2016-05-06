@@ -2,10 +2,12 @@ FROM ericdill/debian-conda-builder:latest
 
 MAINTAINER Eric Dill <edill@bnl.gov>
 
-# remove the condarc from the debian conda builder image
-RUN rm ~/.condarc
+USER root
 # add the nsls2 condarc
 ADD .condarc /home/builder/.condarc
+RUN chown -R builder:builder /home/builder/
+USER builder
+
 RUN cat ~/.condarc
 
 # add the certificate. Note that this has to be built on a machine where
