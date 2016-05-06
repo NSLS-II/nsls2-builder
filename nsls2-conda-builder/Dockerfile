@@ -2,10 +2,14 @@ FROM ericdill/debian-conda-builder:latest
 
 MAINTAINER Eric Dill <edill@bnl.gov>
 
+# remove the condarc from the debian conda builder image
+RUN rm ~/.condarc
+# add the nsls2 condarc
+ADD .condarc ~/.condarc
+
 # add the certificate. Note that this has to be built on a machine where
 # the certificate exists...
 ADD ca_cs_nsls2_local.crt /certs/ca_cs_nsls2_local.crt
-ADD .condarc ~/.condarc
 
 # set up the binstar api url
 RUN mkdir -p ~/.config/binstar && \
