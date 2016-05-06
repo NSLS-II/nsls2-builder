@@ -83,6 +83,9 @@ RUN conda update conda && \
 
 USER root
 
+# Make /tmp writable by everyone
+RUN chmod /tmp 1777
+
 # Add the condarc that allows us to skip adding "--yes" to all the conda calls
 # Also has the `nomkl` directive which significantly shortens the download times
 # and always shows where the packages are downloaded from
@@ -95,5 +98,10 @@ ADD build.sh /home/builder/build.sh
 RUN chown -R builder:builder /home/builder
 
 USER builder
+
+RUN cd && \
+    git clone https://github.com/nsls-ii/auto-build-tagged-recipes && \
+    git clone https://github.com/nsls-ii/staged-recipes-dev && \
+    git clone https://github.com/scikit-beam/skbeam-recipes
 
 CMD ["/bin/bash", "/home/builder/build.sh"]
