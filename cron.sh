@@ -13,6 +13,7 @@ echo "
 DOCKERFILE_FOLDER=$GIT_REPO/nsls2-conda-builder
 
 cp ~/certificates/ca_cs_nsls2_local.crt $DOCKERFILE_FOLDER
+cp ~/dev/dotfiles/tokens/edill.anaconda.nsls2.token $DOCKERFILE_FOLDER
 NSLS2_IMAGE="ericdill/nsls2-conda-builder"
 
 echo "
