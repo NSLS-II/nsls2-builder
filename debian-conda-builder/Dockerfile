@@ -75,10 +75,6 @@ RUN cd && \
 RUN conda update conda && \
     conda install conda-build anaconda-client conda-build-all -c conda-forge && \
     conda remove conda-build-all --force && \
-    git clone https://github.com/Scitools/conda-build-all /home/builder/conda-build-all && \
-    pip install -e /home/builder/conda-build-all && \
-    git clone https://github.com/ericdill/conda-build-utils /home/builder/conda-build-utils && \
-    pip install -e /home/builder/conda-build-utils && \
     conda clean -t -p
 
 USER root
@@ -90,10 +86,15 @@ ADD .condarc /home/builder/.condarc
 
 # Add the build script so that it can be run when the docker container starts
 ADD build.sh /home/builder/build.sh
-
+ADD conda-build-utils/ /home/builder/conda-build-utils/
 # Need to make sure builder owns these files
 RUN chown -R builder:builder /home/builder
 
 USER builder
+# install conda-build-all and conda-build-utils
+RUN pip install -e /home/builder/conda-build-utils
+RUN cd && \
+    git clone https://github.com/SciTools/conda-build-all && \
+    pip install -e conda-build-all/ 
 
 CMD ["/bin/bash", "/home/builder/build.sh"]

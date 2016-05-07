@@ -20,7 +20,7 @@ Building tagged recipes
 conda config --add channels $TAG_CHANNEL --force
 TAG_DIR="~/auto-build-tagged-recipes"
 wget https://raw.githubusercontent.com/NSLS-II/auto-build-tagged-recipes/master/build-directive.yaml -O ~/tag-directive.yaml
-build_from_yaml ~/tag-directive.yaml -u $TAG_CHANNEL
+build_from_yaml ~/tag-directive.yaml -u $TAG_CHANNEL --no-upload
 
 TAG_LOCATION=/host/tag
 BUILD_LOCATION=~/conda/conda-bld/linux-64
@@ -32,11 +32,6 @@ cp $BUILD_LOCATION/* $TAG_LOCATION
 rm -rf $BUILD_LOCATION/*.bz2
 
 
-scp -o ProxyCommand="ssh edill@box64-nsls2.bnl.gov"
-ssh edill@box64-nsls2.bnl.gov << "END1"
-ssh edill@penelope << "END2"
-
-
 echo "
 
 Building dev recipes
@@ -44,4 +39,11 @@ Building dev recipes
 "
 conda config --add channels $DEV_CHANNEL --force
 wget https://raw.githubusercontent.com/NSLS-II/staged-recipes-dev/master/build-directive.yaml -O ~/dev-directive.yaml
-build_from_yaml ~/dev-directive.yaml -u $TAG_CHANNEL
+build_from_yaml ~/dev-directive.yaml -u $TAG_CHANNEL --no-upload
+
+DEV_LOCATION=/host/dev
+
+rm -rf $DEV_LOCATION/*.bz2
+cp $BUILD_LOCATION/* $DEV_LOCATION
+rm -rf $BUILD_LOCATION/*.bz2
+

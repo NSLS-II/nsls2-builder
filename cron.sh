@@ -1,35 +1,23 @@
 #!/bin/bash
-BASE_IMAGE="ericdill/debian-conda-builder:latest"
+DOCKER_IMAGE="ericdill/nsls2-conda-builder"
 echo "
-    Pulling base docker image: $BASE_IMAGE
+    Building nsls2 conda builder
 "
-docker pull $BASE_IMAGE
-GIT_REPO='.'
-
-echo "
-    Copying nsls2 certificate to be a sibling of the nsls2 conda builder
-    dockerfile
-"
-DOCKERFILE_FOLDER=$GIT_REPO/nsls2-conda-builder
-
-cp ~/certificates/ca_cs_nsls2_local.crt $DOCKERFILE_FOLDER
-cp ~/dev/dotfiles/tokens/edill.anaconda.nsls2.token $DOCKERFILE_FOLDER
-NSLS2_IMAGE="ericdill/nsls2-conda-builder"
+docker build -t ericdill/nsls2-conda-builder nsls2-conda-builder
 
 echo "
-    Building nsls2-conda-builder docker image named $NSLS2_IMAGE
+    Making scratch space on the host to store the built binaries
 "
-docker build -t $NSLS2_IMAGE $DOCKERFILE_FOLDER 
-
-
-DEV_CHANNEL=nsls2-dev-testing
-TAG_CHANNEL=nsls2-tag-testing
+HOST_SCRATCH=~/builds
+rm -rf $HOST_SCRATCH
+mkdir -p $HOST_SCRATCH
+DOCKER_IMAGE=$DOCKER_IMAGE:latest
 echo "
-    Running docker image named $NSLS2_IMAGE with the following environmental 
-    variables:
-
-    BINSTAR_TOKEN=$BINSTAR_TOKEN
-    DEV_CHANNEL=$DEV_CHANNEL
-    TAG_CHANNEL=$TAG_CHANNEL
+    Starting $DOCKER_IMAGE which will build new binaries
 "
-docker run -e BINSTAR_TOKEN=$BINSTAR_TOKEN -e DEV_CHANNEL=nsls2-dev-testing -e TAG_CHANNEL=nsls2-tag-testing $NSLS2_IMAGE:latest
+docker run -t \
+    -v $HOST_SCRATCH:/host \
+    -e DEV_CHANNEL=$DEV_CHANNEL \
+    -e TAG_CHANNEL=$TAG_CHANNEL \
+    -e BINSTAR_TOKEN=$BINSTAR_TOKEN \
+    $DOCKER_IMAGE
