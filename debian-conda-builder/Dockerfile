@@ -79,6 +79,9 @@ RUN conda update conda && \
 
 USER root
 
+# Make /tmp writable by everyone
+RUN chown 1777 /tmp
+
 # Add the condarc that allows us to skip adding "--yes" to all the conda calls
 # Also has the `nomkl` directive which significantly shortens the download times
 # and always shows where the packages are downloaded from
