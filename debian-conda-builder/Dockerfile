@@ -15,6 +15,7 @@ RUN apt-get update && \
       tar \
       wget \
       zlib1g-dev \
+      sed \
       libreadline6-dev \
       libglib2.0-0 \
       libxext6 libxext-dev \
